@@ -1,0 +1,17 @@
+{
+  "hour_count": 8760,
+  "power_mw": 9.79,
+  "energy_mwh": 39.16,
+  "rte": 0.937,
+  "annual_da_value_usd": 375384.0847597687,
+  "mean_lmp_usd_per_mwh": 38.227034763698626,
+  "negative_price_hours": 288,
+  "mean_daily_spread_usd_per_mwh": 35.13392473972603,
+  "net_operating_pv_usd": 3106016.8984834948,
+  "da_pv_usd": 3645823.6972221383,
+  "maintenance_pv_usd": 539806.7987386438,
+  "hardware_estimate_usd": 9099280,
+  "hardware_coverage_ratio": 0.3413475460128158,
+  "availability_1pp_da_value_usd": 3753.8408475976867,
+  "max_daily_reference_difference_usd": 6.821210263296962e-13
+}
