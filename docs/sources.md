@@ -10,3 +10,7 @@ Verified links on 2026-11-01; historical inputs retain the qualifications below.
 6. `reference_dispatch_2025.csv` — recovered original study output, formerly `megapack_dispatch_2025.csv`. Serves as an independent regression reference for this reconstruction. Original model scripts were unavailable.
 
 Raw exports, workbook, official PDF, and unredacted screenshots are not redistributed. Processed public market data and the original study dispatch are included for transparent reproduction. Source marks belong to their owners; this repository does not claim ownership of external data.
+
+## Service delivery framework update
+
+[Official Tesla UK Megapack service description](https://www.tesla.com/en_GB/megapack?redirect=no), checked 2026-11-01, confirms Serviced by Tesla and certification for an in-house or third-party team. The three analytical delivery labels are our split of those routes. No third-party cost advantage, provider-performance ranking, or local contract equivalence is established by that page.

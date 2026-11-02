@@ -64,12 +64,29 @@ One daily cycle captures 94.0% of the value modeled with a two-cycle cap. Additi
 
 Repeat annual modeled DA value and $55,580 annual maintenance in constant real dollars; discount year-end cash flows at 6% real for 15 years. DA value PV is $3.646M, maintenance PV $0.540M, and net operating PV $3.106M. This is 34.1% of the supplied historical hardware estimate, not a return on investment. Historical price years were not independently reconciled, and no degradation/augmentation or replacement schedule is modeled. See the [cash flows](analysis/15yr_real_dollar_economics.csv) and [scenario sensitivity](analysis/real_dollar_sensitivity.csv).
 
-## Product implications
+## From sensitivity to segmentation
 
-- **Frame services around total customer value protected.** DA uptime alone is too narrow to support a service-price conclusion. Contract performance, broader revenue streams, asset health, warranty/failure risk, and lifetime costs matter.
-- **Segment by operating capability and downtime exposure.** Tesla servicing may suit owners seeking outsourced operational execution; certification may suit owners with capable internal or third-party teams. These are hypotheses to validate with customers, not demonstrated segment preferences.
-- **Balance utilization against asset health.** Small marginal DA gains beyond one cycle motivate a lifecycle tradeoff assessment; this model does not quantify the wear cost.
-- **Proposed framing:** an availability/performance-focused discussion based on total economic exposure. This is not a claim that Tesla offers an additional service tier.
+The sensitivities motivate a customer-discovery framework: **service capability** (the owner's own ability to maintain the asset) and **revenue sensitivity** (economic exposure to downtime/performance loss). This is a qualitative hypothesis, not model-derived customer clustering. Cost sensitivity is a separate procurement consideration.
+
+![Conceptual customer segmentation and overlapping delivery options](figures/customer_segmentation.png)
+
+High exposure raises response, restoration and accountability requirements under every delivery model. It does not establish that one provider is inherently better. Low internal capability leaves both outsourced paths open; high capability makes in-house execution feasible without requiring it.
+
+### Three B2B service models evaluated
+
+| Analytical delivery model | Candidate fit / hypothesis | Decision to validate |
+|---|---|---|
+| Tesla-Managed Service | Owners preferring outsourced execution and direct OEM support | Quoted coverage, exclusions, response/restoration and total lifecycle cost |
+| Tesla-Certified In-House Service | Owners with a mature qualified internal service organization | Staffing, certification readiness, geographic coverage, spares and escalation |
+| Tesla-Certified Third-Party Service | Owners seeking outsourced execution and provider flexibility | Certification, accountability and matched bids; potentially lower cost remains unverified |
+
+These are three delivery paths derived from Tesla's two described routes, Serviced by Tesla and Certified by Tesla (in-house or third-party), not three official Tesla product tiers. See [official service description](https://www.tesla.com/en_GB/megapack?redirect=no).
+
+**Evidence → recommendation:** efficiency sensitivity motivates diagnostics questions; diminishing cycling value motivates asset-health tradeoffs; the narrow DA availability estimate motivates broader contract-exposure discovery. None of those calculations proves customer preferences or service-price savings.
+
+Recommended next step: discover team readiness and economic exposure, set required service outcomes, then compare equivalent scopes and fully loaded lifecycle costs. Validate with customer interviews, provider bids and contract review. No new service-price, provider-performance or willingness-to-pay estimate is claimed.
+
+Full [customer segmentation, three-model comparison and validation plan](docs/customer_segmentation.md).
 
 ## Reproduce
 
@@ -80,6 +97,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python model/run_analysis.py
+python model/plot_customer_segmentation.py
 ```
 
 The run regenerates hourly dispatch, monthly results, cycle/efficiency sensitivities, real-dollar scenarios, four figures, and `analysis/summary.json`. It checks data continuity, price agreement, physical balances, SOC/power bounds, no simultaneous charging/discharging, cycle caps, and daily objective agreement against the preserved original output. A failed check stops the run. See [raw-data reconstruction](data/README.md).

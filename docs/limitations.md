@@ -14,3 +14,5 @@
 “Value floor” refers only to the intentionally narrow **revenue scope**. It is not a mathematical lower bound on realized project revenue: perfect foresight and omitted costs can overstate DA value. Prefer “DA-only value baseline.” The operating PV is not full project valuation and does not establish profitability.
 
 Independent educational analysis; not affiliated with or endorsed by Tesla or CAISO.
+
+The customer segmentation map is qualitative and illustrative, not an output of dispatch optimization or measured customer research. Delivery paths overlap. High revenue exposure does not establish a preference for Tesla-managed service. No provider bids, customer interviews, service-specific failure rates or willingness-to-pay estimates validate the hypotheses.
