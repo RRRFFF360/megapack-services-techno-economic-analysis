@@ -1,0 +1,17 @@
+{
+  "method": "retrospective daily perfect-foresight outage counterfactual; single-day outages only",
+  "sample_design": "monthly median DA-value and high-value day, start intervals 0/6/12/18; not random",
+  "outage_events_tested": 216,
+  "median_loss_all_sampled_4h_events_usd": 49.7694066869517,
+  "15yr_pv_of_illustrative_20000_annual_service_premium_usd": 194244.97975481965,
+  "four_hour_events_avoided_each_year_to_cover_illustrative_premium_da_only": 401.85329364682786,
+  "historical_tesla_maintenance_estimate_usd": 55580,
+  "all_provider_performance_cost_assumptions_illustrative": true,
+  "notes": [
+    "Outage mask prohibits charge and discharge; optimal dispatch may shift",
+    "Known outage timing and price perfect foresight may understate unexpected losses",
+    "Purposive sample; not estimated outage distributions",
+    "DA-only; omits RA/AS/RT/contract penalties, repairs, safety, warranty and other risks",
+    "No provider rank without comparable quotes and actual reliability observations"
+  ]
+}

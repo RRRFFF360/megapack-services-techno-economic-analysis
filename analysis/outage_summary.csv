@@ -1,0 +1,7 @@
+day_type,duration_requested_hours,sampled_events,minimum_loss_usd,median_loss_usd,mean_loss_usd,maximum_loss_usd
+high_value_day,1,48,0,10.739863,35.144703,273.306127
+high_value_day,4,48,0,58.095787,147.743297,870.290100
+high_value_day,24,12,1140.874592,1645.672004,1810.211541,3175.402729
+median_day,1,48,0,9.981760,17.622177,128.765250
+median_day,4,48,0,42.744562,95.985871,776.164041
+median_day,24,12,341.730928,885.504879,998.345466,1684.210501

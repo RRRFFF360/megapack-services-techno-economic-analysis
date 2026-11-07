@@ -74,6 +74,9 @@ def main():
     negdays=p.loc[p.lmp_per_mwh<0,'operating_date'].unique(); values=base.groupby('operating_date').hourly_market_value_usd.sum(); subset=values.loc[negdays]; sample=(subset-subset.median()).abs().idxmin(); day=base[base.operating_date==sample]
     fig,ax=plt.subplots(figsize=(9,4.5)); x=np.arange(len(day)); ax.bar(x,-day.charge_mw,color='#93b9ab',label='Charge'); ax.bar(x,day.discharge_mw,color=GREEN,label='Discharge'); ax.set(xlabel='Operating interval (local day)',ylabel='AC power (MW)',title=f'Observed dispatch example · {sample}'); ax.axhline(0,color=INK,lw=.6)
     right=ax.twinx(); right.plot(x,day.lmp_per_mwh,color='#b85b36',lw=2,label='LMP'); right.set_ylabel('LMP ($/MWh)'); ax.legend(loc='upper left',frameon=False); right.legend(loc='upper right',frameon=False); save('sample_dispatch')
+    from service_economics import run as run_service_economics
+    _, _, _, service_result = run_service_economics()
+    print(f"Service counterfactuals: {service_result['outage_events_tested']} events", flush=True)
     print(json.dumps(summary,indent=2),flush=True)
 
 if __name__=='__main__': main()
