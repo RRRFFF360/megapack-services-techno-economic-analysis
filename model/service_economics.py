@@ -87,6 +87,39 @@ def service_scenarios(event_loss_usd):
     return pd.DataFrame(results)
 
 
+def plot_outage_summary(cohort, output_path):
+    """Regenerate the publication figure from calculated cohort statistics."""
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    labels = ['1 hour', '4 hours', 'Full local day']
+    fig, ax = plt.subplots(figsize=(10, 5.2))
+    fig.patch.set_facecolor('#fbfcf9')
+    ax.set_facecolor('#fbfcf9')
+    for offset, kind, color, label in [
+        (-.18, 'median_day', '#14654b', 'Selected median-value days'),
+        (.18, 'high_value_day', '#a87045', 'Selected high-value days')
+    ]:
+        values = cohort.loc[cohort.day_type == kind].set_index('duration_requested_hours').loc[[1,4,24], 'median_loss_usd']
+        bars = ax.bar(np.arange(3)+offset, values, width=.34, color=color, label=label)
+        ax.bar_label(bars, labels=[f'${value:,.2f}' for value in values], padding=4, fontsize=9)
+    ax.set_xticks(range(3), labels)
+    ax.set_ylabel('Median simulated DA-only loss ($/event)')
+    ax.set_ylim(0, float(cohort.median_loss_usd.max())*1.3)
+    ax.set_title('Outage timing changes DA-only exposure', loc='left', fontweight='bold')
+    ax.legend(frameon=False, fontsize=9, loc='upper left')
+    ax.spines[['top', 'right']].set_visible(False)
+    fig.text(.09, .06, '216 purposefully selected counterfactuals; advance-known prices and outages.\nNot observed losses or provider reliability. Full day covers every local-day interval.', fontsize=9, color='#52625b')
+    fig.tight_layout(rect=(0, .13, 1, 1))
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with plt.rc_context({'svg.fonttype': 'none', 'svg.hashsalt': 'megapack-outages'}):
+        fig.savefig(output_path, metadata={'Date': None})
+    plt.close(fig)
+    if output_path.suffix == '.svg':
+        output_path.write_text('\n'.join(line.rstrip() for line in output_path.read_text(encoding='utf-8').splitlines())+'\n', encoding='utf-8')
+
+
 def run(prices_path=DATA/'np15_da_lmp_2025.csv',
         ref_path=DATA/'reference_dispatch_2025.csv',output_dir=ANALYSIS):
     prices = pd.read_csv(prices_path)
@@ -126,6 +159,7 @@ def run(prices_path=DATA/'np15_da_lmp_2025.csv',
     cohort.to_csv(output_dir/'outage_summary.csv',index=False)
     example.to_csv(output_dir/'illustrative_service_scenarios.csv',index=False)
     (output_dir/'service_value_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+    plot_outage_summary(cohort, ROOT/'figures'/'outage_opportunity_loss.svg')
     return events,cohort,example,summary
 
 

@@ -48,6 +48,8 @@ These are **three analytical delivery paths** (Tesla-serviced; Tesla-certified i
 
 Run `python model/run_analysis.py` (full original analysis + service extension), or `python model/service_economics.py` (only extension), and `python -m unittest discover -s tests -v`.
 
+The outage chart is generated from the cohort statistics. `python model/validate_outputs.py` independently re-solves every stored outage event and audits the physical constraints and output arithmetic. See [executed release validation](validation.md) for the actual environment, seven passing tests, full-run results and raw-source verification limits.
+
 - `analysis/outage_events.csv` – 216 individual events (regenerated; not source market data)
 - `analysis/outage_summary.csv` – cohort statistics
 - `analysis/illustrative_service_scenarios.csv` – unverified teaching examples

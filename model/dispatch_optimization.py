@@ -21,7 +21,7 @@ def solve_day(day, cycles=1.0, rte=RTE, availability=None):
     availability = np.asarray(availability, dtype=float)
     if availability.shape != (n,) or not np.isfinite(availability).all() or (availability < 0).any() or (availability > 1).any():
         raise ValueError("availability must have one [0,1] value per operating hour")
-    if cycles < 0 or not 0 < rte <= 1:
+    if not np.isfinite(cycles) or cycles < 0 or not np.isfinite(rte) or not 0 < rte <= 1:
         raise ValueError("Invalid cycles or RTE")
     eta = np.sqrt(rte)
     # Variables: AC charge[n], AC discharge[n], end-of-hour SOC[n], charge mode[n].

@@ -32,6 +32,33 @@ class TestOutageModel(unittest.TestCase):
     def test_invalid_masks_rejected(self):
         with self.assertRaises(ValueError): solve_day(self.day(),availability=np.ones(23))
         with self.assertRaises(ValueError): solve_day(self.day(),availability=np.full(24,1.1))
+        for value in (-.1, float('nan'), float('inf')):
+            with self.assertRaises(ValueError): solve_day(self.day(),availability=np.full(24,value))
+
+    def test_dst_days_preserve_all_intervals_and_soc(self):
+        for hours in (23,25):
+            with self.subTest(hours=hours):
+                day=pd.DataFrame({'lmp_per_mwh':[25.]*(hours//2)+[100.]*(hours-hours//2)})
+                result=solve_day(day,availability=np.zeros(hours))
+                self.assertEqual(len(result),hours)
+                self.assertTrue(np.allclose(result.soc_end_mwh,19.58))
+                self.assertAlmostEqual(result.hourly_market_value_usd.sum(),0.,places=6)
+
+    def test_partial_availability_enforces_power_and_energy_balance(self):
+        result=solve_day(self.day(),availability=np.full(24,.25))
+        self.assertLessEqual(result.charge_mw.max(),9.79*.25+1e-6)
+        self.assertLessEqual(result.discharge_mw.max(),9.79*.25+1e-6)
+        eta=np.sqrt(.937)
+        self.assertTrue(np.allclose(result.soc_end_mwh-result.soc_start_mwh,
+                                    eta*result.charge_mw-result.discharge_mw/eta))
+        self.assertLessEqual(result.discharge_mw.sum()/eta,39.16+1e-6)
+        self.assertTrue((np.minimum(result.charge_mw,result.discharge_mw)<1e-6).all())
+        self.assertAlmostEqual(result.soc_end_mwh.iloc[-1],19.58,places=6)
+
+    def test_nonfinite_parameters_rejected(self):
+        for value in (float('nan'),float('inf')):
+            with self.assertRaises(ValueError): solve_day(self.day(),cycles=value)
+            with self.assertRaises(ValueError): solve_day(self.day(),rte=value)
 
     def test_example_cost_arithmetic_not_provider_evidence(self):
         s=service_scenarios(250.)

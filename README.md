@@ -112,7 +112,7 @@ Full [customer segmentation, three-model comparison and validation plan](docs/cu
 
 ## Reproduce
 
-Tested with Python 3.9.6 and the pinned packages below. No network access is required after installation; processed prices are included.
+Release validated with Python 3.10.5 and the pinned packages below (earlier study environment: Python 3.9.6). No network access is required after installation; processed prices are included. See [executed release validation and evidence limits](docs/validation.md).
 
 ```sh
 python3 -m venv .venv
@@ -121,6 +121,7 @@ python -m pip install -r requirements.txt
 python model/run_analysis.py
 python model/plot_customer_segmentation.py
 python -m unittest discover -s tests -v
+python model/validate_outputs.py
 ```
 
 The run regenerates hourly dispatch, monthly results, cycle/efficiency sensitivities, real-dollar scenarios, four raster figures, 216 outage counterfactuals, service-value tables, and `analysis/summary.json`. It checks data continuity, price agreement, physical balances, SOC/power bounds, no simultaneous charging/discharging, cycle caps, and daily objective agreement against the preserved original output. A failed check stops the run. See [raw-data reconstruction](data/README.md).
@@ -129,7 +130,7 @@ The run regenerates hourly dispatch, monthly results, cycle/efficiency sensitivi
 model/             data preparation, dispatch, real-dollar economics, full analysis
  data/processed/   hourly prices, original reference, regenerated outputs, source hashes
 analysis/          sensitivity tables, 15-year cash flows, outage events, illustrative service values
-figures/           four regenerated analytical charts
+figures/           dispatch, sensitivity, outage and conceptual segmentation charts
 docs/              methodology, assumptions, sources, limitations
 ```
 
