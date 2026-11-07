@@ -7,13 +7,26 @@ POWER_MW = 9.79
 ENERGY_MWH = 39.16
 RTE = 0.937
 
-def solve_day(day, cycles=1.0, rte=RTE):
-    """AC charge/discharge; symmetric efficiency; discharge/(eta*E) internal-energy cycle cap."""
+def solve_day(day, cycles=1.0, rte=RTE, availability=None):
+    """Perfect-foresight daily MILP with optional hourly power-availability mask.
+
+    availability[t]=0 prohibits both charging and discharging in hour t.
+    This models a hypothetical outage, not a measured SLA or provider reliability.
+    """
     n = len(day)
+    if n not in (23,24,25):
+        raise ValueError(f"Expected 23-25 local-day hours; received {n}")
+    if availability is None:
+        availability = np.ones(n)
+    availability = np.asarray(availability, dtype=float)
+    if availability.shape != (n,) or not np.isfinite(availability).all() or (availability < 0).any() or (availability > 1).any():
+        raise ValueError("availability must have one [0,1] value per operating hour")
+    if not np.isfinite(cycles) or cycles < 0 or not np.isfinite(rte) or not 0 < rte <= 1:
+        raise ValueError("Invalid cycles or RTE")
     eta = np.sqrt(rte)
     # Variables: AC charge[n], AC discharge[n], end-of-hour SOC[n], charge mode[n].
     objective = np.r_[day.lmp_per_mwh, -day.lmp_per_mwh, np.zeros(2*n)]
-    upper = np.r_[np.full(2*n, POWER_MW), np.full(n, ENERGY_MWH), np.ones(n)]
+    upper = np.r_[POWER_MW*availability, POWER_MW*availability, np.full(n, ENERGY_MWH), np.ones(n)]
     rows, low, high = [], [], []
     def constraint(row, lower, upper):
         rows.append(row); low.append(lower); high.append(upper)

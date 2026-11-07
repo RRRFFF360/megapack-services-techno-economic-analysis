@@ -34,3 +34,7 @@ This is **operating PV before initial investment**, not project NPV. The $9,099,
 ## Reproduction provenance
 
 The original Python scripts and real-dollar result CSVs cited in the prior chat were not available in this workspace. The implementation here was reconstructed with AI assistance from documented assumptions and validated against the recovered original hourly dispatch file. Input prices match the 12 raw source exports exactly. The validation checks physics, no simultaneous charge/discharge, cycle limits, daily boundaries, price integrity and daily objective agreement with the original output. See `analysis/summary.json` for the measured maximum daily objective difference. This is a validated reconstruction, not a claim to have recovered the original source code.
+
+## Hourly outage and service decision extension (2026-11-06)
+
+See [service-value analysis](service_value.md). The same daily MILP is re-solved with zero AC charging and discharging capacity on selected outage hours. Retrospectively sampled dates represent median and high baseline-value days in each month; 1h/4h outages start at 0/6/12/18, and full-day outages disable the whole local operating day. There are 216 deterministic simulated events. This models **foreknown** downtime, not actual site reliability; provider assumptions in the optional cost example are fabricated and clearly labeled. The incremental decision must incorporate actual revenue stack, penalties, repair costs and matched service quotes before giving a provider recommendation.

@@ -1,0 +1,4 @@
+service_path,annual_service_cost_usd,annual_four_hour_outages_assumed,event_loss_assumed_usd,annual_da_loss_usd,annual_service_plus_da_loss_usd,pv_15yr_burden_usd,is_verified_provider_performance,is_verified_comparable_quote
+Tesla-managed (illustrative),55580.0,2.0,49.7694066869517,99.5388133739034,55679.5388133739,540773.5444780755,False,False
+Certified in-house (illustrative),35000.0,6.0,49.7694066869517,298.6164401217102,35298.61644012171,342828.9517892293,False,False
+Certified third-party (illustrative),42000.0,4.0,49.7694066869517,199.0776267478068,42199.07762674781,409847.94896398456,False,False
